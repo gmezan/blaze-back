@@ -13,9 +13,11 @@ import org.springframework.stereotype.Service;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private final SequenceGeneratorService sequenceGeneratorService;
 
-    public ProductServiceImpl(ProductRepository productRepository) {
+    public ProductServiceImpl(ProductRepository productRepository, SequenceGeneratorService sequenceGeneratorService) {
         this.productRepository = productRepository;
+        this.sequenceGeneratorService = sequenceGeneratorService;
     }
 
     @Override
@@ -31,7 +33,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto create(ProductDto productDto) {
-        return this.toProductDto(productRepository.save(this.toProduct(productDto)));
+        var product = this.toProduct(productDto);
+        product.setId(String.valueOf(sequenceGeneratorService.generateSequenceProduct(Product.SEQUENCE_NAME)));
+        return this.toProductDto(productRepository.save(product));
     }
 
     @Override

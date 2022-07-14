@@ -1,5 +1,6 @@
 package com.example.blaze.test.dto;
 
+import com.example.blaze.test.domain.enums.ProductCategory;
 import com.example.blaze.test.domain.enums.ProductStatus;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +12,7 @@ import java.math.BigDecimal;
 public class ProductDto {
     private String id;
     private String name;
-    private String category;
+    private ProductCategory category;
     private BigDecimal price;
     private ProductStatus status;
 }

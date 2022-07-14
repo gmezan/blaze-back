@@ -4,6 +4,7 @@ import com.example.blaze.test.domain.enums.OrderStatus;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.math.BigDecimal;
@@ -23,15 +24,27 @@ import java.util.Map;
 
 @Getter
 @Setter
-@Document(collection = "order")
+@Document(collection = "orders")
 public class Order {
+
+    @Transient
+    public static final String SEQUENCE_NAME = "orders_sequence";
 
     @Id
     private String number;
+    private int seq;
     private OrderStatus status;
     private String orderDate;
     private String customer;
     private Map<String,BigDecimal> taxesAmounts;
     private BigDecimal totalTaxes;
-    private List<String> productIds;
+    private BigDecimal totalAmount;
+    private List<ProductOrder> products;
+
+    @Getter
+    @Setter
+    public static class ProductOrder {
+        private String id;
+        private Integer quantity;
+    }
 }

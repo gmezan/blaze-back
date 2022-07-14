@@ -1,5 +1,6 @@
 package com.example.blaze.test.controller;
 
+import com.example.blaze.test.dto.AddItemsDto;
 import com.example.blaze.test.dto.OrderDto;
 import com.example.blaze.test.service.OrderService;
 import org.springframework.web.bind.annotation.*;
@@ -29,18 +30,44 @@ public class OrderController {
     }
 
     @PostMapping()
-    public OrderDto post(@RequestBody OrderDto OrderDto) {
-        return this.orderService.create(OrderDto);
+    public OrderDto post(@RequestBody OrderDto orderDto) {
+        return this.orderService.create(orderDto);
     }
 
     @PutMapping(value = "/{id}")
-    public OrderDto put(@PathVariable String id, @RequestBody OrderDto OrderDto) {
-        return this.orderService.update(id, OrderDto);
+    public OrderDto put(@PathVariable String id, @RequestBody OrderDto orderDto) {
+        return this.orderService.update(id, orderDto);
     }
 
     @DeleteMapping(value = "/{id}")
     public void delete(@PathVariable String id){
         this.orderService.delete(id);
     }
-    
+
+    @PostMapping(value = "/{id}/reject")
+    public OrderDto reject(@PathVariable String id, @RequestBody OrderDto orderDto) {
+        return this.orderService.reject(id, orderDto);
+    }
+
+    @PostMapping(value = "/{id}/complete")
+    public OrderDto complete(@PathVariable String id, @RequestBody OrderDto orderDto) {
+        return this.orderService.complete(id,orderDto);
+    }
+
+
+    @PutMapping(value = "/{number}/add/{id}")
+    public OrderDto addProduct(@PathVariable String number, @PathVariable String id, @RequestBody OrderDto orderDto) {
+        return this.orderService.addProduct(number, id, orderDto);
+    }
+
+    @PutMapping(value = "/{number}/delete/{id}")
+    public OrderDto deleteProduct(@PathVariable String number, @PathVariable String id, @RequestBody OrderDto orderDto) {
+        return this.orderService.deleteProduct(number, id,orderDto);
+    }
+
+    @PutMapping(value = "/{number}/add-items")
+    public OrderDto addItems(@PathVariable String number, @RequestBody AddItemsDto itemsDto) {
+        return this.orderService.addItems(number, itemsDto);
+    }
+
 }
