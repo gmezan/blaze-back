@@ -8,5 +8,5 @@ import org.springframework.data.mongodb.repository.Query;
 
 public interface ProductRepository extends MongoRepository<Product, String> {
     @Query("{ id: { $regex: '^[0-9]' } }")
-    Page<Product> findAll(Pageable pageable);
+    Page<Product> findPagedProducts(Pageable pageable);
 }

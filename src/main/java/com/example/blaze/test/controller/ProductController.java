@@ -3,6 +3,7 @@ package com.example.blaze.test.controller;
 import com.example.blaze.test.dto.ProductDto;
 import com.example.blaze.test.service.ProductService;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -38,8 +39,13 @@ public class ProductController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public void delete(@PathVariable String id){
-        this.productService.delete(id);
+    public ResponseEntity<String> delete(@PathVariable String id){
+        try {
+            this.productService.delete(id);
+            return ResponseEntity.ok(id);
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.badRequest().body(ex.getMessage());
+        }
     }
 
 }
